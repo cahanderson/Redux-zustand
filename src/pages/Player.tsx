@@ -3,11 +3,19 @@ import { Header } from "../components/Header";
 import { Video } from "../components/Video";
 import { Module } from "../components/Module";
 import { useAppSelector } from "../store";
+import { useEffect } from "react";
+import { api } from "../lib/axios";
 export function Player() {
 
   const modules = useAppSelector(state=>{
     return state.player.course.modules
   })
+
+  useEffect(()=>{
+    api.get('/courses/1').then(response =>{
+      console.log(response)
+    })
+  },[])
 
   return (
     <div className="h-screen bg-zinc-950 text-zinc-50 flex justify-center items-center">
