@@ -2,19 +2,19 @@ import { MessageCircle } from "lucide-react";
 import { Header } from "../components/Header";
 import { Video } from "../components/Video";
 import { Module } from "../components/Module";
-import { useAppSelector } from "../store";
+import { useAppDispatch, useAppSelector } from "../store";
 import { useEffect } from "react";
-import { api } from "../lib/axios";
+import { loadCourse} from "../store/slices/player";
 export function Player() {
 
+  const dispatch = useAppDispatch()
+
   const modules = useAppSelector(state=>{
-    return state.player.course.modules
+    return state.player.course?.modules
   })
 
   useEffect(()=>{
-    api.get('/courses/1').then(response =>{
-      console.log(response)
-    })
+    dispatch(loadCourse())
   },[])
 
   return (
@@ -33,7 +33,7 @@ export function Player() {
             <Video />
           </div>
           <aside className="w-80 absolute top-0 bottom-0 right-0 border-l divide-y-2 divide-zinc-900 border-zinc-800 bg-zinc-900 overflow-y-scroll scrollbar scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800">
-            {modules.map((module,index)=>{
+            {modules?.map((module,index)=>{
               return(
                 <Module 
                   key={module.id} 
